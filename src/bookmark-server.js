@@ -24,7 +24,6 @@ bookmarkRouter
     }
 
     const bookmark = { id: uuid(), title, url, description, rating };
-    console.log(bookmark);
     bookmarks.push(bookmark);
 
     logger.info(`Bookmark with id ${bookmark.id} created`);
@@ -39,10 +38,16 @@ bookmarkRouter
 bookmarkRouter
   .route('/bookmark/:id')
   .get((req, res) => {
-    // implment
+    const id = req.params.id;
+    let bookmark = bookmarks.filter(bookmark => bookmark.id === id);
+    res.json(bookmark);
   })
   .delete((req, res) => {
-    // implment delete
+    const id = req.params.id;
+    let index = bookmarks.findIndex(bookmark => bookmark.id === id);
+    bookmarks.splice(index, 1);
+    logger.info(`Bookmark with id ${id} deleted`);
+    res.status(204).end();
   });
 
 
